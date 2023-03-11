@@ -1,7 +1,8 @@
 import { validateForm } from '$lib/server';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import type { SomeInput } from '$lib/models';
+import { SomeInputCodec } from '$lib/models';
+import { PathReporter } from 'io-ts/PathReporter';
 
 export const load = (async (event) => {
 	console.log('page load', { event });
@@ -9,10 +10,13 @@ export const load = (async (event) => {
 
 export const actions = {
 	default: async (event) => {
-		const result = await validateForm<SomeInput>(event);
+		const result = validateForm(SomeInputCodec)(event);
 
-		if (!result.success) return fail(400, { result });
+		if (result._tag === 'Left') {
+			const errors = PathReporter.report(result);
+			return fail(400, { errors });
+		}
 
-		return { success: result.success };
+		return { result: result.right };
 	}
 } satisfies Actions;

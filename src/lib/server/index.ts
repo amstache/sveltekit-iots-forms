@@ -1,24 +1,9 @@
-import { SomeInput } from '$lib/models';
 import type { RequestEvent } from '@sveltejs/kit';
+import type * as T from 'io-ts';
 
-export async function validateForm<T extends SomeInput>(
-	event: RequestEvent | Request | FormData | null | undefined
-) {
-	const decoded = SomeInput.decode(event);
-	if (decoded._tag === 'Left') {
-		return {
-			success: false,
-			data: decoded.left,
-			message: 'Decode unsuccessful',
-			errors: decoded.left,
-			empty: false
-		} as const;
-	}
-	return {
-		success: true,
-		data: decoded.right as T,
-		message: 'Yay',
-		errors: {},
-		empty: false
-	} as const;
+export function validateForm<C extends T.Mixed>(
+	decoder: C
+): (event: RequestEvent | Request | FormData | null | undefined) => T.Validation<C> {
+	// TODO: handle these different event types. not sure which are useful
+	return (event) => decoder.decode(event);
 }
