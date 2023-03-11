@@ -23,6 +23,8 @@
 		"dist"
 	],
 	"peerDependencies": {
+		"fp-ts": "^2.13.1",
+		"io-ts": "^2.2.20",
 		"svelte": "^3.54.0"
 	},
 	"devDependencies": {
