@@ -25,7 +25,13 @@
 	"peerDependencies": {
 		"fp-ts": "^2.13.1",
 		"io-ts": "^2.2.20",
+		"sk-form-data": "^1.0.0",
 		"svelte": "^3.54.0"
+	},
+	"peerDependenciesMeta": {
+		"sk-form-data": {
+			"optional": true
+		}
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",

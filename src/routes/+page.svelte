@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { PageData } from './$types';
 </script>
 
 <h1>sveltekit-iots-forms</h1>
@@ -10,7 +9,7 @@
 
 	<label for="email">Email</label> <input type="text" name="email" />
 
-	<label for="delay">Delay</label> <input type="text" name="delay" />ms
+	<label for="delay">Delay</label> <input type="number" name="+delay" />ms
 
 	<div>
 		<button>Submit</button>
