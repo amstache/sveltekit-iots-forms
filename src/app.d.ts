@@ -3,9 +3,9 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		interface Locals {
-			form_data: Record<string, any>;
-		}
+		// interface Locals {
+		// 	form_data: Record<string, any>;
+		// }
 		// interface PageData {}
 		// interface Platform {}
 	}

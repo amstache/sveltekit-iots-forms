@@ -21,15 +21,12 @@ Then, make your form markup. Check the naming conventions used by
 `parse-form-data` to see how to name your inputs. For numbers,
 prefix it with a `+` sign.
 
-
 ```html
 <form method="POST" use:enhance>
 	<label for="delay">Delay</label> <input type="number" name="+delay" />ms
 	<button>Submit</button>
 </form>
-
 ```
-
 
 ```typescript
 // src/routes/+page.server.ts
@@ -41,15 +38,15 @@ import { PathReporter } from 'io-ts/PathReporter';
 
 // This is an example from the io-ts docs.
 interface PositiveBrand {
-	readonly Positive: unique symbol
+	readonly Positive: unique symbol;
 }
 
 const Positive = t.brand(
 	t.number, // a codec representing the type to be refined
 	(n): n is t.Branded<number, PositiveBrand> => 0 < n, // a custom type guard using the build-in helper `Branded`
 	'Positive' // the name must match the readonly field in the brand
-)
-type Positive = t.TypeOf<typeof Positive>
+);
+type Positive = t.TypeOf<typeof Positive>;
 const SomeInputCodec = T.type({
 	delay: Positive
 });
