@@ -5,7 +5,7 @@
 	"author": "Andrei Mustață <andrei.mustata@gmail.com>",
 	"repository": {
 		"type": "git",
-		"url": "github:amstache/sveltekit-iots-forms"
+		"url": "github:amstche/sveltekit-iots-forms"
 	},
 	"keywords": ["sveltekit", "io-ts", "typescript"],
 	"version": "0.1.0",
