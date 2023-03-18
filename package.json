@@ -1,6 +1,15 @@
 {
 	"name": "sveltekit-iots-forms",
-	"version": "0.0.1",
+	"description": "_Helper lib for validating (form) data in SvelteKit_",
+	"license": "ISC",
+	"author": "Andrei Mustață <andrei.mustata@gmail.com>",
+	"repository": {
+		"type": "git",
+		"url": "github:amstache/sveltekit-iots-forms"
+	},
+	"keywords": ["sveltekit", "io-ts", "typescript"],
+	"version": "0.1.0",
+	"private": false,
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
