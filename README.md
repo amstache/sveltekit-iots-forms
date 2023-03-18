@@ -1,10 +1,62 @@
 # sveltekit-iots-forms
+_Helper lib for validating (form) data in SvelteKit_
 
 ## Pre-requisites
 
 ```bash
-npm install -g io-ts sk-form-data
+npm install io-ts
 ```
+
+## Example
+
+### Models
+
+First, create your models. This is an example from the io-ts docs.
+Check out the [io-ts docs](https://gcanti.github.io/io-ts/) for more info.
+
+```typescript
+import * as T from 'io-ts';
+import { PathReporter } from 'io-ts/PathReporter';
+
+// This is an example from the io-ts docs.
+interface PositiveBrand {
+	readonly Positive: unique symbol;
+}
+
+const Positive = t.brand(
+	t.number, // a codec representing the type to be refined
+	(n): n is t.Branded<number, PositiveBrand> => 0 < n, // a custom type guard using the build-in helper `Branded`
+	'Positive' // the name must match the readonly field in the brand
+);
+type Positive = t.TypeOf<typeof Positive>;
+const SomeInputCodec = T.type({
+	delay: Positive
+});
+type SomeInput = T.TypeOf<typeof SomeInputCodec>;
+```
+
+### Validation
+
+In short, all you need to do is to pass whatever it is you need validated,
+along with the `Codec` to the `validateForm` function.
+
+```typescript
+import { fail } from '@sveltejs/kit';
+import { validateForm } from '$lib/server';
+import SomeInputCodec from '$lib/models/some-input';
+
+const result = validateForm(SomeInputCodec)(event);
+//		^-- result is of type Either<Errors, SomeInput>
+if (result._tag === 'Left') return fail(400);
+
+// due to the type guard above, result.right is of type SomeInput
+console.log(result.right.delay);
+```
+
+### Longer validation example
+
+**WIP**
+
 
 First, include the parsed form data in the `event.locals` object.
 `sk-form-data` does this for you, but you need to include it in the hooks.
@@ -33,24 +85,6 @@ prefix it with a `+` sign.
 import { validateForm } from '$lib/server';
 import type { Actions, PageServerLoad } from './$types';
 import { fail } from '@sveltejs/kit';
-import * as T from 'io-ts';
-import { PathReporter } from 'io-ts/PathReporter';
-
-// This is an example from the io-ts docs.
-interface PositiveBrand {
-	readonly Positive: unique symbol;
-}
-
-const Positive = t.brand(
-	t.number, // a codec representing the type to be refined
-	(n): n is t.Branded<number, PositiveBrand> => 0 < n, // a custom type guard using the build-in helper `Branded`
-	'Positive' // the name must match the readonly field in the brand
-);
-type Positive = t.TypeOf<typeof Positive>;
-const SomeInputCodec = T.type({
-	delay: Positive
-});
-type SomeInput = T.TypeOf<typeof SomeInputCodec>;
 
 export const actions = {
 	default: async (event) => {
